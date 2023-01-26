@@ -8,6 +8,44 @@ class Board(
        println("$row X $column")
     }
 
+    fun boardLayout(list: MutableList<MutableList<Field>>) {
+        for (kolone in 1..list.size) {
+            print(" $kolone")
+        }
+
+        println()
+
+        for (red in 0 until list[0].size) {
+            for (kolone in 0 until list.size) {
+                print("║")
+                if(list[kolone][red] is Field.Empty){
+                    print(" ")
+                }
+            }
+            print("║")
+            println()
+        }
+
+        for (kolone in 0..list.size) {
+            when (kolone) {
+                0 -> print("╚")
+                list.size -> print("═╝")
+                else -> print("═╩")
+            }
+        }
+    }
+
+    fun emptyBoard(): MutableList<MutableList<Field>>{
+        val glavnaLista = mutableListOf<MutableList<Field>>()
+        for (i in 0 until column) {
+            val lista = mutableListOf<Field>()
+            for (j in 0 until row) {
+                lista.add(Field.Empty)
+            }
+            glavnaLista.add(lista)
+        }
+        return glavnaLista
+    }
 
     companion object{
         fun initialize(): Board{

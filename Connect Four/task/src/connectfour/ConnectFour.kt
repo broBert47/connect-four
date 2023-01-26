@@ -5,6 +5,7 @@ class ConnectFour {
     private val player1: Player
     private val player2: Player
     private val board: Board
+    private val glavnaLista: MutableList<MutableList<Field>>
 
     init {
         println("Connect Four")
@@ -17,6 +18,11 @@ class ConnectFour {
 
         println("${player1.name} VS ${player2.name}")
         board.printDimension()
+
+        glavnaLista = board.emptyBoard()
+        board.boardLayout(glavnaLista)
+
+
     }
 
 }
