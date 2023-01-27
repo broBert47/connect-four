@@ -1,5 +1,7 @@
 package connectfour
 
-enum class Symbol {
-    CIRCLE, STAR
+enum class Symbol(
+    val value: String
+){
+    CIRCLE("o"), STAR("*")
 }

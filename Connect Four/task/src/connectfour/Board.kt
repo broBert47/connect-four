@@ -4,8 +4,8 @@ class Board(
     val row: Int,
     val column: Int
 ) {
-    fun printDimension(){
-       println("$row X $column")
+    fun printDimension() {
+        println("$row X $column")
     }
 
     fun boardLayout(list: MutableList<MutableList<Field>>) {
@@ -18,8 +18,11 @@ class Board(
         for (red in 0 until list[0].size) {
             for (kolone in 0 until list.size) {
                 print("║")
-                if(list[kolone][red] is Field.Empty){
+                val a = list[kolone][red]
+                if (a is Field.Empty) {
                     print(" ")
+                } else if (a is Field.Selected) {
+                    print(a.symbol.value)
                 }
             }
             print("║")
@@ -33,9 +36,10 @@ class Board(
                 else -> print("═╩")
             }
         }
+        println()
     }
 
-    fun emptyBoard(): MutableList<MutableList<Field>>{
+    fun emptyBoard(): MutableList<MutableList<Field>> {
         val glavnaLista = mutableListOf<MutableList<Field>>()
         for (i in 0 until column) {
             val lista = mutableListOf<Field>()
@@ -47,8 +51,8 @@ class Board(
         return glavnaLista
     }
 
-    companion object{
-        fun initialize(): Board{
+    companion object {
+        fun initialize(): Board {
             var rows = 0
             var columns = 0
             var dimensionSet = false
@@ -89,7 +93,7 @@ class Board(
                 }
             } while (!dimensionSet)
 
-            return Board(row = rows , column = columns)
+            return Board(row = rows, column = columns)
         }
 
         private fun printUvod() {

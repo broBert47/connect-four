@@ -1,7 +1,8 @@
 package connectfour
 
 class Player(
-    val name: String
+    val name: String,
+    var symbol: Symbol
 ) {
 
 }

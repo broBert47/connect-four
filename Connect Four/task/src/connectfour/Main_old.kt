@@ -171,6 +171,9 @@ class _OldGame {
 
             } while (!singleGame)
 
+
+
+
             // PRINTANJE TRENUTNOG REZULTATA
             if(numberOfGames > 1){
                 println("""
