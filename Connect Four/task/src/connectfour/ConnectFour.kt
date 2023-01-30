@@ -40,10 +40,13 @@ class ConnectFour {
 
         //POKREĆEMO FUNKCIJU KOJOM IGRAMO JEDNU IGRU
         playingGame()
+
+
     }
 
     fun playingGame(){
         var gameCounter = 0
+        var status: GameStatus
         do{
 
             //PRINTA SE IME IGRAČA KOJI JE NA REDU
@@ -79,14 +82,21 @@ class ConnectFour {
                 }
             }
 
-            val status = game.checkWinner()
+            status = game.checkWinner()
             if(status != GameStatus.Playing){
                 gameCounter++
             }
 
+
         }while(gameCounter == 0)
 
-
+        if(status is GameStatus.Winner){
+            if(status.symbol == player1.symbol){
+                println("Player ${player1.name } won")
+            } else {
+                println("Player ${player2.name } won")
+            }
+        }
         println("Game over!")
     }
 
