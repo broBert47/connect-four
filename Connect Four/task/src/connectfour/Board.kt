@@ -5,7 +5,7 @@ class Board(
     val column: Int
 ) {
     fun printDimension() {
-        println("$row X $column")
+        println("$row X $column board")
     }
 
     fun boardLayout(list: MutableList<MutableList<Field>>) {

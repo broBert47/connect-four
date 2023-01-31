@@ -48,13 +48,13 @@ class ConnectFour {
 
     }
 
-    fun playingGame(){
+    fun playingGame() {
         var gameCounter = 0
         var status: GameStatus = GameStatus.Playing
 
-        do{
+        do {
             gameCounter++
-            if(game.numberOfGames > 1){
+            if (game.numberOfGames > 1) {
                 println("Game #$gameCounter")
             }
 
@@ -65,10 +65,15 @@ class ConnectFour {
             //CRTAMO NOVU PRAZNU PLOČU
             board.boardLayout(game.glavnaLista)
 
+            //ODREĐUJE SE KO JE PRVI NA REDU
+            currentPlayer = if (gameCounter % 2 == 1) {
+                player1
+            } else {
+                player2
+            }
 
 
-
-            do{
+            do {
 
                 //PRINTA SE IME IGRAČA KOJI JE NA REDU
                 println("${currentPlayer.name}'s turn:")
@@ -80,8 +85,8 @@ class ConnectFour {
 
                 // AKO JE IGRAČ UNIO END, ZAVRŠAVA IGRA
                 // ROVJERAVA SE DA LI JE IGRAČ UNIO BROJ
-                if(input == "end"){
-                    status = GameStatus.GameOver
+                if (input == "end") {
+                    status = GameStatus.Aborted
                     singleGame = true
                     dobarUnos = false
                 } else {
@@ -104,57 +109,75 @@ class ConnectFour {
                         println("The column number is out of range (1 - ${board.column})")
                     }
                 }
-                if(status !is GameStatus.GameOver){
+                if (status !is GameStatus.GameOver && status !is GameStatus.Aborted) {
                     status = game.checkWinner()
-                    if(status != GameStatus.Playing){
+                    if (status != GameStatus.Playing) {
                         singleGame = true
                     }
                 }
 
-            }while(!singleGame)
+            } while (!singleGame)
             singleGame = false
 
-            if(status is GameStatus.Winner){
-                if(status.symbol == player1.symbol){
-                    player1.score+=2
-                    println("Player ${player1.name } won")
+            if (status is GameStatus.Winner) {
+                if (status.symbol == player1.symbol) {
+                    player1.score += 2
+                    println("Player ${player1.name} won")
                 } else {
-                    player2.score+=2
-                    println("Player ${player2.name } won")
+                    player2.score += 2
+                    println("Player ${player2.name} won")
                 }
-            } else if(status is GameStatus.Draw){
+            } else if (status is GameStatus.Draw) {
                 player1.score++
                 player2.score++
             }
 
-            if(gameCounter == game.numberOfGames){
+
+
+            if (status !is GameStatus.Aborted && gameCounter == game.numberOfGames) {
                 status = GameStatus.GameOver
             }
 
-        }while(status != GameStatus.GameOver)
+            if (status !is GameStatus.GameOver && gameCounter != game.numberOfGames) {
+                println(
+                    """
+                    Score
+                    ${player1.name}: ${player1.score} ${player2.name}: ${player2.score}
+                    """.trimIndent()
+                )
+            }
 
-        if(player1.score > player2.score){
-            println("Player ${player1.name} won")
+        } while (status != GameStatus.GameOver && status != GameStatus.Aborted)
+
+        if (status == GameStatus.Aborted) {
+            println("Game over!")
         } else {
-            println("Player ${player2.name} won")
-        }
+            if (player1.score > player2.score) {
+                println("Player ${player1.name} won")
+            } else {
+                println("Player ${player2.name} won")
+            }
 
-        println("""
+            println(
+                """
             Score
             ${player1.name}: ${player1.score} ${player2.name}: ${player2.score}
             Game over!
-        """.trimIndent())
+        """.trimIndent()
+            )
+        }
     }
 
-    fun swapPlayer(){
-        currentPlayer = if(currentPlayer == player1) {
+
+    fun swapPlayer() {
+        currentPlayer = if (currentPlayer == player1) {
             player2
         } else {
             player1
         }
     }
 
-    fun numGames(): Int{
+    fun numGames(): Int {
         var games = 0
         var gamesSet = false
         do {
