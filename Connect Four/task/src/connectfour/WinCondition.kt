@@ -120,4 +120,14 @@ object WinCondition {
         }
         return GameStatus.Playing
     }
+
+    fun checkDraw(list: MutableList<MutableList<Field>>): Boolean{
+
+        for(kolona in list){
+            if(Field.Empty in kolona){
+                return false
+            }
+        }
+        return true
+    }
 }

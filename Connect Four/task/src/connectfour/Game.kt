@@ -1,9 +1,17 @@
 package connectfour
 
+import java.lang.Exception
+import java.util.EmptyStackException
+
 class Game(
-    val glavnaLista: MutableList<MutableList<Field>>,
-    private val board: Board
+    private val board: Board,
+    val numberOfGames: Int
 ) {
+    val glavnaLista: MutableList<MutableList<Field>> = mutableListOf(mutableListOf())
+
+    init{
+        emptyBoard()
+    }
 
     fun turn(input: Int, currentPlayer: Player): Boolean{
         if (Field.Empty in glavnaLista[input - 1]) {
@@ -33,9 +41,29 @@ class Game(
             return status
         }
 
-        return WinCondition.diagonalWin(glavnaLista)
+        status = WinCondition.diagonalWin(glavnaLista)
+        if(status != GameStatus.Playing){
+            return status
+        }
+
+        val draw = WinCondition.checkDraw(glavnaLista)
+        if(draw){
+            return GameStatus.Draw
+        }
+
+        return GameStatus.Playing
     }
 
-
-
+    fun emptyBoard(){
+        val glavnaLista = mutableListOf<MutableList<Field>>()
+        for (i in 0 until board.column) {
+            val lista = mutableListOf<Field>()
+            for (j in 0 until board.row) {
+                lista.add(Field.Empty)
+            }
+            glavnaLista.add(lista)
+        }
+        this.glavnaLista.clear()
+        this.glavnaLista.addAll(glavnaLista)
+    }
 }

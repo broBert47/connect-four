@@ -39,18 +39,6 @@ class Board(
         println()
     }
 
-    fun emptyBoard(): MutableList<MutableList<Field>> {
-        val glavnaLista = mutableListOf<MutableList<Field>>()
-        for (i in 0 until column) {
-            val lista = mutableListOf<Field>()
-            for (j in 0 until row) {
-                lista.add(Field.Empty)
-            }
-            glavnaLista.add(lista)
-        }
-        return glavnaLista
-    }
-
     companion object {
         fun initialize(): Board {
             var rows = 0
